@@ -1077,6 +1077,123 @@
             </div>
         </div>
     </div>
+    <div id="purchases" class="tab-pane fade">
+        <script type="text/javascript">
+            $(document).ready(function () {
+                oTable = $('#PoRData').dataTable({
+                    "aaSorting": [[0, "desc"]],
+                    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "<?= lang('all') ?>"]],
+                    "iDisplayLength": <?= $Settings->rows_per_page ?>,
+                    'bProcessing': true, 'bServerSide': true,
+                    'sAjaxSource': '<?= admin_url('reports/getPurchasesReport/?v=1&product=' . $product->id) ?>',
+                    'fnServerData': function (sSource, aoData, fnCallback) {
+                        aoData.push({
+                            "name": "<?= $this->security->get_csrf_token_name() ?>",
+                            "value": "<?= $this->security->get_csrf_hash() ?>"
+                        });
+                        $.ajax({'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback});
+                    },
+                    'fnRowCallback': function (nRow, aData, iDisplayIndex) {
+                        nRow.id = aData[9];
+                        nRow.className = (aData[5] > 0) ? "purchase_link2" : "purchase_link2 warning";
+                        return nRow;
+                    },
+                    "aoColumns": [{"mRender": fld}, null, null, null, {
+                        "bSearchable": false,
+                        "mRender": pqFormat
+                    }, {"mRender": currencyFormat}, {"mRender": currencyFormat}, {"mRender": currencyFormat}, {"mRender": row_status}],
+                    "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+                        var gtotal = 0, paid = 0, balance = 0;
+                        for (var i = 0; i < aaData.length; i++) {
+                            gtotal += parseFloat(aaData[aiDisplay[i]][5]);
+                            paid += parseFloat(aaData[aiDisplay[i]][6]);
+                            balance += parseFloat(aaData[aiDisplay[i]][7]);
+                        }
+                        var nCells = nRow.getElementsByTagName('th');
+                        nCells[5].innerHTML = currencyFormat(parseFloat(gtotal));
+                        nCells[6].innerHTML = currencyFormat(parseFloat(paid));
+                        nCells[7].innerHTML = currencyFormat(parseFloat(balance));
+                    }
+                }).fnSetFilteringDelay().dtFilter([
+                    {column_number: 0, filter_default_label: "[<?=lang('date'); ?> (yyyy-mm-dd)]", filter_type: "text", data: []},
+                    {column_number: 1, filter_default_label: "[<?=lang('reference_no'); ?>]", filter_type: "text", data: []},
+                    {column_number: 2, filter_default_label: "[<?=lang('warehouse'); ?>]", filter_type: "text", data: []},
+                    {column_number: 3, filter_default_label: "[<?=lang('supplier'); ?>]", filter_type: "text", data: []},
+                    {column_number: 8, filter_default_label: "[<?=lang('status'); ?>]", filter_type: "text", data: []},
+                ], "footer");
+            });
+        </script>
+        <div class="box">
+            <div class="box-header">
+                <h2 class="blue"><i class="fa-fw fa fa-star nb"></i><?= $product->name . ' ' . lang('purchases'); ?>
+                </h2>
+
+                <div class="box-icon">
+                    <ul class="btn-tasks">
+                        <li class="dropdown">
+                            <a href="#" id="pdf2" class="tip" title="<?= lang('download_pdf') ?>">
+                                <i class="icon fa fa-file-pdf-o"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" id="xls2" class="tip" title="<?= lang('download_xls') ?>">
+                                <i class="icon fa fa-file-excel-o"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" id="image2" class="tip image" title="<?= lang('save_image') ?>">
+                                <i class="icon fa fa-file-picture-o"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="box-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p class="introtext"><?php echo lang('list_results'); ?></p>
+
+                        <div class="table-responsive">
+                            <table id="PoRData" class="table table-bordered table-hover table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th><?= lang('date'); ?></th>
+                                    <th><?= lang('reference_no'); ?></th>
+                                    <th><?= lang('warehouse'); ?></th>
+                                    <th><?= lang('supplier'); ?></th>
+                                    <th><?= lang('product_qty'); ?></th>
+                                    <th><?= lang('grand_total'); ?></th>
+                                    <th><?= lang('paid'); ?></th>
+                                    <th><?= lang('balance'); ?></th>
+                                    <th><?= lang('status'); ?></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
+                                </tr>
+                                </tbody>
+                                <tfoot class="dtFilter">
+                                <tr class="active">
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th><?= lang('product_qty'); ?></th>
+                                    <th><?= lang('grand_total'); ?></th>
+                                    <th><?= lang('paid'); ?></th>
+                                    <th><?= lang('balance'); ?></th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 

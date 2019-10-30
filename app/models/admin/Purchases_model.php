@@ -552,16 +552,16 @@ class Purchases_model extends CI_Model
 
     public function updateAVCO($data)
     {
-        // if ($wp_details = $this->getWarehouseProductQuantity($data['warehouse_id'], $data['product_id'])) {
-        //     $total_cost     = (($wp_details->quantity * $wp_details->avg_cost) + ($data['quantity'] * $data['cost']));
-        //     $total_quantity = $wp_details->quantity + $data['quantity'];
-        //     if (!empty($total_quantity)) {
-        //         $avg_cost = ($total_cost / $total_quantity);
-        //         $this->db->update('warehouses_products', ['avg_cost' => $avg_cost], ['product_id' => $data['product_id'], 'warehouse_id' => $data['warehouse_id']]);
-        //     }
-        // } else {
+        if ($wp_details = $this->getWarehouseProductQuantity($data['warehouse_id'], $data['product_id'])) {
+            $total_cost     = (($wp_details->quantity * $wp_details->avg_cost) + ($data['quantity'] * $data['cost']));
+            $total_quantity = $wp_details->quantity + $data['quantity'];
+            if (!empty($total_quantity)) {
+                $avg_cost = ($total_cost / $total_quantity);
+                $this->db->update('warehouses_products', ['avg_cost' => $avg_cost], ['product_id' => $data['product_id'], 'warehouse_id' => $data['warehouse_id']]);
+            }
+        } else {
             $this->db->insert('warehouses_products', ['product_id' => $data['product_id'], 'warehouse_id' => $data['warehouse_id'], 'avg_cost' => $data['cost']]);
-        // }
+        }
     }
 
     public function updateExpense($id, $data = [])
