@@ -601,7 +601,7 @@ class Purchases_model extends CI_Model
                 $this->site->syncQuantity(null, $id);
                 foreach ($oitems as $oitem) {
                     // $this->updateAVCO(['product_id' => $oitem->product_id, 'warehouse_id' => $oitem->warehouse_id, 'quantity' => (0 - $oitem->quantity), 'cost' => $oitem->real_unit_cost]);
-                    $this->updateAVCO(['product_id' => $oitem->product_id, 'warehouse_id' => $oitem->warehouse_id, 'quantity' => (0 - $oitem->quantity), 'cost' => $oitem->real_unit_cost]);
+                    $this->updateAVCO(['product_id' => $oitem->product_id, 'warehouse_id' => $oitem->warehouse_id, 'quantity' => ($oitem->quantity), 'cost' => $oitem->real_unit_cost]);
                 }
             }
             $this->site->syncPurchasePayments($id);
