@@ -75,7 +75,7 @@ class Purchases_model extends CI_Model
             }
 
             if ($data['status'] == 'received' || $data['status'] == 'returned') {
-                $this->site->syncQuantity(null, $purchase_id);
+                // $this->site->syncQuantity(null, $purchase_id);
             }
         }
         $this->db->trans_complete();
@@ -184,7 +184,7 @@ class Purchases_model extends CI_Model
                     }
                 }
             }
-            $this->site->syncQuantity(null, null, $purchase_items);
+            // $this->site->syncQuantity(null, null, $purchase_items);
         }
         $this->db->trans_complete();
         if ($this->db->trans_status() === false) {
@@ -629,7 +629,7 @@ class Purchases_model extends CI_Model
                     $this->db->update('purchase_items', ['status' => $status, 'quantity_balance' => $qb, 'quantity_received' => $qr], ['id' => $item->id]);
                     $this->updateAVCO(['product_id' => $item->product_id, 'warehouse_id' => $item->warehouse_id, 'quantity' => $item->quantity, 'cost' => $item->real_unit_cost]);
                 }
-                $this->site->syncQuantity(null, null, $items);
+                // $this->site->syncQuantity(null, null, $items);
             } elseif (($purchase->status == 'received' || $purchase->status == 'partial') && ($status == 'ordered' || $status == 'pending')) {
                 foreach ($items as $item) {
                     $qb = 0;
