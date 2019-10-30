@@ -73,7 +73,7 @@ class Purchases extends MY_Controller
                 $item_expiry        = (isset($_POST['expiry'][$r]) && !empty($_POST['expiry'][$r])) ? $this->sma->fsd($_POST['expiry'][$r]) : null;
                 $supplier_part_no   = (isset($_POST['part_no'][$r]) && !empty($_POST['part_no'][$r])) ? $_POST['part_no'][$r] : null;
                 $item_unit          = $_POST['product_unit'][$r];
-                $item_quantity      = $_POST['product_base_quantity'][$r];
+                //$item_quantity      = $_POST['product_base_quantity'][$r];
 
                 if (isset($item_code) && isset($real_unit_cost) && isset($unit_cost) && isset($item_quantity)) {
                     $product_details = $this->purchases_model->getProductByCode($item_code);
@@ -120,7 +120,7 @@ class Purchases extends MY_Controller
                         'option_id'         => $item_option,
                         'net_unit_cost'     => $item_net_cost,
                         'unit_cost'         => $this->sma->formatDecimal($item_net_cost + $item_tax),
-                        'quantity'          => $item_quantity,
+                        'quantity'          => 0,
                         'product_unit_id'   => $item_unit,
                         'product_unit_code' => $unit->code,
                         'unit_quantity'     => $item_unit_quantity,
