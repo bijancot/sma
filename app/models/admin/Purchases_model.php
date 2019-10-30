@@ -75,7 +75,7 @@ class Purchases_model extends CI_Model
             }
 
             if ($data['status'] == 'received' || $data['status'] == 'returned') {
-                // $this->site->syncQuantity(null, $purchase_id);
+                $this->site->syncQuantity(null, $purchase_id);
             }
         }
         $this->db->trans_complete();
@@ -184,7 +184,7 @@ class Purchases_model extends CI_Model
                     }
                 }
             }
-            // $this->site->syncQuantity(null, null, $purchase_items);
+            $this->site->syncQuantity(null, null, $purchase_items);
         }
         $this->db->trans_complete();
         if ($this->db->trans_status() === false) {
