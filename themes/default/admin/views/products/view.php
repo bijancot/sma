@@ -11,6 +11,7 @@
         <li class=""><a href="#purchases" class="tab-grey"><?= lang('purchases') ?></a></li>
         <li class=""><a href="#transfers" class="tab-grey"><?= lang('transfers') ?></a></li>
         <li class=""><a href="#damages" class="tab-grey"><?= lang('quantity_adjustments') ?></a></li>
+        <li class=""><a href="#purchases1" class="tab-grey"><?= lang('purchases') ?></a></li>
         <?php
     } ?>
     </ul>
@@ -1077,7 +1078,7 @@
             </div>
         </div>
     </div>
-    <div id="purchases" class="tab-pane fade">
+    <div id="purchases1" class="tab-pane fade">
         <div class="box">
             <div class="box-header">
                 <h2 class="blue"><i class="fa-fw fa fa-star nb"></i><?= $product->name . ' ' . lang('purchases'); ?>
