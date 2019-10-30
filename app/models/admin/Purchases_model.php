@@ -593,7 +593,7 @@ class Purchases_model extends CI_Model
                 $item['option_id']   = !empty($item['option_id']) && is_numeric($item['option_id']) ? $item['option_id'] : null;
                 $this->db->insert('purchase_items', $item);
                 if ($data['status'] == 'received' || $data['status'] == 'partial') {
-                    // $this->updateAVCO(['product_id' => $item['product_id'], 'warehouse_id' => $item['warehouse_id'], 'quantity' => $item['quantity'], 'cost' => $item['real_unit_cost']]);
+                    $this->updateAVCO(['product_id' => $item['product_id'], 'warehouse_id' => $item['warehouse_id'], 'quantity' => $item['quantity'], 'cost' => $item['real_unit_cost']]);
                 }
             }
             $this->site->syncQuantity(null, null, $oitems);
