@@ -600,6 +600,7 @@ class Purchases_model extends CI_Model
             if ($data['status'] == 'received' || $data['status'] == 'partial') {
                 $this->site->syncQuantity(null, $id);
                 foreach ($oitems as $oitem) {
+                    // $this->updateAVCO(['product_id' => $oitem->product_id, 'warehouse_id' => $oitem->warehouse_id, 'quantity' => (0 - $oitem->quantity), 'cost' => $oitem->real_unit_cost]);
                     $this->updateAVCO(['product_id' => $oitem->product_id, 'warehouse_id' => $oitem->warehouse_id, 'quantity' => (0 - $oitem->quantity), 'cost' => $oitem->real_unit_cost]);
                 }
             }
@@ -623,7 +624,7 @@ class Purchases_model extends CI_Model
         if ($this->db->update('purchases', ['status' => $status, 'note' => $note], ['id' => $id])) {
             if (($purchase->status != 'received' || $purchase->status != 'partial') && ($status == 'received' || $status == 'partial')) {
                 foreach ($items as $item) {
-                    $qb = $status == 'received' ? ($item->quantity_balance + ($item->quantity - $item->quantity_received)) : $item->quantity_balance;
+                    // $qb = $status == 'received' ? ($item->quantity - $item->quantity_received) : $item->quantity_balance;
                     $qr = $status == 'received' ? $item->quantity : $item->quantity_received;
                     $this->db->update('purchase_items', ['status' => $status, 'quantity_balance' => $qb, 'quantity_received' => $qr], ['id' => $item->id]);
                     $this->updateAVCO(['product_id' => $item->product_id, 'warehouse_id' => $item->warehouse_id, 'quantity' => $item->quantity, 'cost' => $item->real_unit_cost]);
