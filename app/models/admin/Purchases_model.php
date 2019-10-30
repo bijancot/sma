@@ -75,7 +75,7 @@ class Purchases_model extends CI_Model
             }
 
             if ($data['status'] == 'received' || $data['status'] == 'returned') {
-                $this->site->syncQuantity(null, $purchase_id);
+                // $this->site->syncQuantity(null, $purchase_id);
             }
         }
         $this->db->trans_complete();
@@ -184,7 +184,7 @@ class Purchases_model extends CI_Model
                     }
                 }
             }
-            $this->site->syncQuantity(null, null, $purchase_items);
+            // $this->site->syncQuantity(null, null, $purchase_items);
         }
         $this->db->trans_complete();
         if ($this->db->trans_status() === false) {
@@ -593,7 +593,7 @@ class Purchases_model extends CI_Model
                 $item['option_id']   = !empty($item['option_id']) && is_numeric($item['option_id']) ? $item['option_id'] : null;
                 $this->db->insert('purchase_items', $item);
                 if ($data['status'] == 'received' || $data['status'] == 'partial') {
-                    $this->updateAVCO(['product_id' => $item['product_id'], 'warehouse_id' => $item['warehouse_id'], 'quantity' => $item['quantity'], 'cost' => $item['real_unit_cost']]);
+                    // $this->updateAVCO(['product_id' => $item['product_id'], 'warehouse_id' => $item['warehouse_id'], 'quantity' => $item['quantity'], 'cost' => $item['real_unit_cost']]);
                 }
             }
             $this->site->syncQuantity(null, null, $oitems);
